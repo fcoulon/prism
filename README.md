@@ -6,6 +6,8 @@ This repo contains :
  - An example FSM as EMF model & Java fluent API
  - The implementation of Patch production/consomation for EMF & Java FSM 
 
+![Screenshot](Screenshot.png)
+
 Setup
 -----
  1. Have an Eclipse with EMF & Sirius
