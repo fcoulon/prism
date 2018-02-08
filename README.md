@@ -18,6 +18,7 @@ Setup
 Play
 ----
 Once you are in the second Eclipse instance
+
  0. Check your are in the 'Modeling' perspective (needed for Sirius)
  1. Open 'example/representation.aird' (Machine Diagram)
  2. Open 'foo/Main.java'
