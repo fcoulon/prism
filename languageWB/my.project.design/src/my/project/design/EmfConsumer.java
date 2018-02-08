@@ -181,6 +181,10 @@ public class EmfConsumer implements Consumer {
 		//FIXME: code specific to FSM :(
 		// grab factory through EPackage registry ?
 		
+		if(model.getEObject(edit.getId()) != null) {
+			return; //we ignore Create if already exits
+		}
+		
 		String id = edit.getId();
 		String type = edit.getType();
 		

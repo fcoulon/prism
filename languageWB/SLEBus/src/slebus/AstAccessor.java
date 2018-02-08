@@ -147,22 +147,7 @@ public class AstAccessor {
 	}
 
 	public void addMachine(String id) {
-		// Update real AST
-		MethodInvocation endExp = (MethodInvocation) fsm2Exp.get("/").get(fsm2Exp.get("/").size() - 1);
-		Expression newFsm = buildFsm(ast);
-		endExp.setExpression(newFsm);
-
-		// Reset all IDs
-		exp2Id = new HashMap<>();
-		fsm2Exp = new HashMap<>();
-		state2Exp = new HashMap<>();
-		transition2Exp = new HashMap<>();
-
-		// Update IDs
-		exp2Id.put(newFsm, "/");
-		fsm2Exp.put("/", new ArrayList<Expression>());
-		fsm2Exp.get("/").add(newFsm);
-		fsm2Exp.get("/").add(endExp);
+		// Ignore
 	}
 
 	public void addState(String id) {
@@ -171,30 +156,17 @@ public class AstAccessor {
 		MethodInvocation newState = buildMethodInvocation(STATE, ast);
 
 		boolean isReplacing = state2Exp.get(id) != null;
-		if (isReplacing) { // insert before old state
-			MethodInvocation oldState = (MethodInvocation) state2Exp.get(id).get(0);
-			Expression callingExp = oldState.getExpression();
-			oldState.setExpression(newState);
-			newState.setExpression(callingExp);
-		} else { // append state
+		if (!isReplacing) { // append state
 			Expression callingExpr = insertionPoint.getExpression();
 			insertionPoint.setExpression(newState);
 			newState.setExpression(callingExpr);
-		}
-
-		// Update IDs
-		if (isReplacing) {
-			List<Expression> toRemove = state2Exp.get(id);
-			int index = fsm2Exp.get("/").indexOf(toRemove.get(0));
-			fsm2Exp.get("/").removeAll(toRemove);
-			fsm2Exp.get("/").add(index, newState);
-			shiftUpIds(state2Exp, id);
-		} else {
+			
 			int index = fsm2Exp.get("/").indexOf(insertionPoint);
 			fsm2Exp.get("/").add(index - 1, newState);
+			
+			state2Exp.put(id, new ArrayList<Expression>());
+			state2Exp.get(id).add(newState);
 		}
-		state2Exp.put(id, new ArrayList<Expression>());
-		state2Exp.get(id).add(newState);
 	}
 
 	public void addTransition(String id) {
@@ -203,27 +175,11 @@ public class AstAccessor {
 		MethodInvocation insertionPoint = findInsertionPoint(id);
 
 		boolean isReplacing = transition2Exp.get(id) != null;
-		if (isReplacing) { // insert before old transition
-			MethodInvocation oldTrans = (MethodInvocation) transition2Exp.get(id).get(0);
-			Expression callingExp = oldTrans.getExpression();
-			oldTrans.setExpression(newTransition);
-			newTransition.setExpression(callingExp);
-		} else {
+		if (!isReplacing) {
 			Expression callingExpr = insertionPoint.getExpression();
 			insertionPoint.setExpression(newTransition);
 			newTransition.setExpression(callingExpr);
-		}
-
-		// Update IDs
-		if (isReplacing) {
-			Expression oldTansition = transition2Exp.get(id).get(0);
-			int index = fsm2Exp.get("/").indexOf(oldTansition);
-			fsm2Exp.get("/").add(index, newTransition);
-			String stateId = id.substring(0, id.lastIndexOf("/"));
-			int indexInState = state2Exp.get(stateId).indexOf(oldTansition);
-			state2Exp.get(stateId).add(indexInState, newTransition);
-			shiftUpIds(transition2Exp, id);
-		} else {
+		
 			int index = fsm2Exp.get("/").indexOf(insertionPoint);
 			fsm2Exp.get("/").add(index - 1, newTransition);
 
@@ -234,10 +190,10 @@ public class AstAccessor {
 			} else {
 				state2Exp.get(stateId).add(indexInState - 1, newTransition);
 			}
+			transition2Exp.put(id, new ArrayList<Expression>());
+			transition2Exp.get(id).add(newTransition);
 		}
 
-		transition2Exp.put(id, new ArrayList<Expression>());
-		transition2Exp.get(id).add(newTransition);
 	}
 
 	/*
