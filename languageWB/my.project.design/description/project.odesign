@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" name="project" version="12.0.0.2017041100">
+  <ownedViewpoints name="Machine viewpoint" modelFileExtension="myfsm">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Machine Diagram" domainClass="myfsm::Machine" enablePopupBars="true">
+      <defaultLayer name="Default">
+        <edgeMappings name="TransitionEdge" deletionDescription="//@ownedViewpoints[name='Machine%20viewpoint']/@ownedRepresentations[name='Machine%20Diagram']/@defaultLayer/@toolSections.0/@ownedTools[name='DeleteTransition']" sourceMapping="//@ownedViewpoints[name='Machine%20viewpoint']/@ownedRepresentations[name='Machine%20Diagram']/@defaultLayer/@containerMappings[name='FsmNode']/@subNodeMappings[name='StateNode']" targetMapping="//@ownedViewpoints[name='Machine%20viewpoint']/@ownedRepresentations[name='Machine%20Diagram']/@defaultLayer/@containerMappings[name='FsmNode']/@subNodeMappings[name='StateNode']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.eContainer()" domainClass="myfsm::Trans" useDomainElement="true">
+          <style sizeComputationExpression="4" endsCentering="Both">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription showIcon="false" labelExpression="aql:self.event">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="FsmNode" semanticCandidatesExpression="aql:self" domainClass="myfsm::Machine">
+          <subNodeMappings name="StateNode" domainClass="myfsm::State">
+            <style xsi:type="style:EllipseNodeDescription" borderSizeComputationExpression="5" showIcon="false" labelPosition="node" resizeKind="NSEW" horizontalDiameterComputationExpression="10" verticalDiameterComputationExpression="10">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+            </style>
+            <conditionnalStyles predicateExpression="aql:self.eContainer().initial = self">
+              <style xsi:type="style:DotDescription" borderSizeComputationExpression="5" showIcon="false" labelAlignment="LEFT" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </style>
+            </conditionnalStyles>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="20" arcHeight="20" borderSizeComputationExpression="2" labelSize="15" showIcon="false" roundedCorner="true">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+          </style>
+        </containerMappings>
+        <toolSections name="Create">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="CreateTransition" label="Transition" edgeMappings="//@ownedViewpoints[name='Machine%20viewpoint']/@ownedRepresentations[name='Machine%20Diagram']/@defaultLayer/@edgeMappings[name='TransitionEdge']" iconPath="/my.project.design/icons/transition.png">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="myfsm::Trans" referenceName="transitions">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="target" valueExpression="var:target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateState" label="State" nodeMappings="//@ownedViewpoints[name='Machine%20viewpoint']/@ownedRepresentations[name='Machine%20Diagram']/@defaultLayer/@containerMappings[name='FsmNode']/@subNodeMappings[name='StateNode']" iconPath="/my.project.design/icons/state.png">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="myfsm::State" referenceName="states"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateInitial" label="Initial" nodeMappings="//@ownedViewpoints[name='Machine%20viewpoint']/@ownedRepresentations[name='Machine%20Diagram']/@defaultLayer/@containerMappings[name='FsmNode']/@subNodeMappings[name='StateNode']" iconPath="/my.project.design/icons/initial.png">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="myfsm::State" referenceName="states">
+                <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="initial" valueExpression="var:instance"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="DeleteTransition">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:RemoveElement"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="my.project.design.Services"/>
+  </ownedViewpoints>
+</description:Group>
