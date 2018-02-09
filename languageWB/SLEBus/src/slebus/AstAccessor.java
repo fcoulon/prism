@@ -289,10 +289,20 @@ public class AstAccessor {
 		List<Expression> calls = state2Exp.get(id);
 		if(calls != null) {
 			MethodInvocation state = (MethodInvocation) calls.get(0);
+			String oldStateName = ((StringLiteral)state.arguments().get(0)).getLiteralValue();
 			state.arguments().clear();
 			StringLiteral stringLit = ast.newStringLiteral();
 			stringLit.setLiteralValue(value);
 			state.arguments().add(stringLit);
+			
+			//Update also incoming transitions
+			for (Entry<String, List<Expression>> entry : transition2Exp.entrySet()) {
+				MethodInvocation transition = (MethodInvocation) entry.getValue().get(0);
+				StringLiteral target = (StringLiteral) transition.arguments().get(0);
+				if(target.getLiteralValue().equals(oldStateName)) {
+					target.setLiteralValue(value);
+				}
+			}
 		}
 	}
 
