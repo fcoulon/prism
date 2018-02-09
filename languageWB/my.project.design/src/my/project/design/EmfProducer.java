@@ -177,6 +177,15 @@ public class EmfProducer implements Producer {
 				}
 			}
 		}
+		
+		if(oldFsm.getInitial() != newFsm.getInitial() && newFsm.getInitial() != null) {
+			String value = newResource.getURIFragment(newFsm.getInitial());
+			edits.add(new Set("/", "initial", value));
+		}
+		else if(oldFsm.getInitial() != null && newFsm.getInitial() == null) {
+			edits.add(new UnSet("/", "initial"));
+		}
+		
 
 		Patch patch = new Patch();
 		patch.getEdits().addAll(edits);

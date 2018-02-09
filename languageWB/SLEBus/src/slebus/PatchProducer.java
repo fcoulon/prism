@@ -93,6 +93,13 @@ public class PatchProducer {
 			}
 		}
 		
+		if(!fsm1.getFsm_Initial("/").isPresent() && fsm2.getFsm_Initial("/").isPresent()) {
+			edits.add(new Set("/","initial",fsm2.getFsm_Initial("/").get()));
+		}
+		else if(fsm1.getFsm_Initial("/").isPresent() && !fsm2.getFsm_Initial("/").isPresent()){
+			edits.add(new UnSet("/","initial"));
+		}
+		
 		Patch patch = new Patch();
 		patch.getEdits().addAll(edits);
 		
