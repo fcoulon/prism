@@ -1,22 +1,27 @@
 package slebus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.Expression;
 
 import edit.Create;
 import edit.Delete;
 import edit.Edit;
+import edit.Insert;
 import edit.Patch;
 import edit.Set;
 import edit.UnSet;
 
-public class PatchProducer {
+public class FsmComparator {
 	
 	/**
 	 * Return a Patch appliable on fsm1 to equal fsm2
 	 */
-	public static Patch compare(AstAccessor fsm1, AstAccessor fsm2) {
+	public static Patch compare(String sourceID, AstAccessor fsm1, AstAccessor fsm2) {
 		
 		List<Edit> edits = new ArrayList<>();
 		
@@ -64,17 +69,22 @@ public class PatchProducer {
 		}
 		
 		//Complete fsm1 with fsm2 stuff
-		for(String stateID : fsm2.getStates()) {
+		List<String> statesIDs = new ArrayList<>(fsm2.getStates());
+		Collections.sort(statesIDs);
+		for(String stateID : statesIDs) {
 			String stateName2 = fsm2.getState_Name(stateID).get();
 			Optional<String> stateName1 = fsm1.getState_Name(stateID);
 			
 			if(!stateName1.isPresent()) {
 				edits.add(new Create(stateID, "State"));
 				edits.add(new Set(stateID, "name", stateName2));
+//				edits.add(new Insert("/","states",stateID,0));
 			}
 		}
 		
-		for(String transID : fsm2.getTransitions()) {
+		List<String> transIDs = new ArrayList<>(fsm2.getTransitions());
+		Collections.sort(statesIDs);
+		for(String transID : transIDs) {
 			Optional<String> transTarget2 = fsm2.getTransition_Target(transID);
 			if(transTarget2.isPresent()) {
 				Optional<String> transTarget1 = fsm1.getTransition_Target(transID);
@@ -100,10 +110,18 @@ public class PatchProducer {
 			edits.add(new UnSet("/","initial"));
 		}
 		
-		Patch patch = new Patch();
+		Patch patch = new Patch(sourceID);
 		patch.getEdits().addAll(edits);
 		
 		return patch;
 	}
-
+	
+	public static Patch fsmToPatch(String sourceID, AstAccessor fsm) {
+		AST ast = AST.newAST(AST.JLS8);
+		List<Expression> oldFsm = AstUpdater.createEmptyFSM(ast);
+		AstAccessor fsm1 = new AstAccessor(oldFsm);
+		Patch p = compare(sourceID, fsm1, fsm);
+		p.getEdits().add(0, new Create("/", "Machine"));
+		return p;
+	}
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" name="model" version="12.0.0.2017041100">
+  <ownedViewpoints name="MyFsm Viewpoint" modelFileExtension="myfsm">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Fsm Diagram" initialisation="true" domainClass="myfsm::Machine" enablePopupBars="true">
+      <metamodel href="http://www.example.org/myfsm#/"/>
+      <defaultLayer name="Default">
+        <nodeMappings name="State Node" domainClass="myfsm::State">
+          <style xsi:type="style:EllipseNodeDescription" labelSize="18" labelPosition="node" resizeKind="NSEW" horizontalDiameterComputationExpression="10" verticalDiameterComputationExpression="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_blue']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="Trans Node" domainClass="myfsm::Trans">
+          <style xsi:type="style:LozengeNodeDescription" labelSize="12" labelExpression="feature:event" labelPosition="node" resizeKind="NSEW" widthComputationExpression="10" heightComputationExpression="5">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="NodeToTrans" sourceMapping="//@ownedViewpoints[name='MyFsm%20Viewpoint']/@ownedRepresentations[name='Fsm%20Diagram']/@defaultLayer/@nodeMappings[name='State%20Node']" targetMapping="//@ownedViewpoints[name='MyFsm%20Viewpoint']/@ownedRepresentations[name='Fsm%20Diagram']/@defaultLayer/@nodeMappings[name='Trans%20Node']" targetFinderExpression="feature:transitions">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="TransToNode" sourceMapping="//@ownedViewpoints[name='MyFsm%20Viewpoint']/@ownedRepresentations[name='Fsm%20Diagram']/@defaultLayer/@nodeMappings[name='Trans%20Node']" targetMapping="//@ownedViewpoints[name='MyFsm%20Viewpoint']/@ownedRepresentations[name='Fsm%20Diagram']/@defaultLayer/@nodeMappings[name='State%20Node']" targetFinderExpression="feature:target">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="myfsm.model.design.Services"/>
+  </ownedViewpoints>
+</description:Group>

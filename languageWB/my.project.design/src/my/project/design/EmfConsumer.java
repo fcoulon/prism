@@ -20,6 +20,7 @@ import edit.Patch;
 import edit.Remove;
 import edit.Set;
 import edit.UnSet;
+import myfsm.Machine;
 import myfsm.MyfsmPackage;
 import slebus.Consumer;
 
@@ -226,7 +227,26 @@ public class EmfConsumer implements Consumer {
 	}
 
 	@Override
-	public String getID() {
-		return "EmfProducer";
+	public String getId() {
+		return "EmfConsumer";
+	}
+
+	@Override
+	public void synchronize(Patch p) {
+		System.out.println("Synchro\n-----------");
+		System.out.println(p.toString());
+		RecordingCommand cmd = new RecordingCommand(session.getTransactionalEditingDomain()) {
+			@Override
+			protected void doExecute() {
+				Machine fsm = (Machine) model.getContents().get(0);
+				fsm.setName("");
+				fsm.getStates().clear();
+				fsm.setInitial(null);
+				apply(p);
+			}
+		};
+		CommandStack commandStack = session.getTransactionalEditingDomain().getCommandStack();
+		commandStack.execute(cmd);
+		
 	}
 }

@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.eclipse.sirius.business.api.session.Session;
 
 import edit.Create;
 import edit.Delete;
@@ -27,12 +29,13 @@ import myfsm.State;
 import myfsm.Trans;
 import slebus.Producer;
 
-public class EmfProducer implements Producer {
+public class EmfProducer extends EmfConsumer implements Producer{
 
 	IFile srcFile;
 
-	public EmfProducer(IFile srcFile) {
-		this.srcFile = srcFile;
+	public EmfProducer(Session session, Resource model) {
+		super(session,model);
+		srcFile = WorkspaceSynchronizer.getFile(model);
 	}
 
 	@Override
@@ -45,12 +48,7 @@ public class EmfProducer implements Producer {
 			return compare(oldResource.get(), newResource.get());
 		}
 
-		return new Patch();
-	}
-
-	@Override
-	public String getID() {
-		return "EmfProducer";
+		return new Patch(getId());
 	}
 
 	private Optional<Resource> getNewResource() {
@@ -187,8 +185,23 @@ public class EmfProducer implements Producer {
 		}
 		
 
-		Patch patch = new Patch();
+		Patch patch = new Patch(getId());
 		patch.getEdits().addAll(edits);
 		return patch;
+	}
+
+	@Override
+	public Patch synchronize() {
+		ResourceSet rs = new ResourceSetImpl();
+		Resource emptyRes = rs.createResource(URI.createURI("EmptyResource"));
+		Optional<Resource> newResource = getNewResource();
+
+		if (newResource.isPresent()) {
+			return compare(emptyRes, getNewResource().get());
+		}
+		else {
+			//TODO: error?
+			return new Patch(getId());
+		}
 	}
 }

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: myfsm_rascal
+Bundle-SymbolicName: myfsm_rascal;singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle: rascal_eclipse,
+ rascal_ecore;bundle-version="1.0.0",
+ SLEBus
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

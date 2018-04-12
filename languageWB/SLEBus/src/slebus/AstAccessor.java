@@ -233,7 +233,19 @@ public class AstAccessor {
 	}
 
 	public void deleteMachine(String id) {
-		// TODO huu ?
+		ClassInstanceCreation newFsm = (ClassInstanceCreation) fsm2Exp.get("/").get(0);
+		StringLiteral emtpyString = ast.newStringLiteral();
+		newFsm.arguments().add(emtpyString);
+		MethodInvocation end = (MethodInvocation) fsm2Exp.get("/").get(fsm2Exp.get("/").size() - 1);
+		end.setExpression(newFsm);
+		
+		exp2Id.clear();
+		exp2Id.put(newFsm, "/");
+		fsm2Exp.get("/").clear();
+		fsm2Exp.get("/").add(newFsm);
+		fsm2Exp.get("/").add(end);
+		state2Exp.clear();
+		transition2Exp.clear();
 	}
 
 	public void deleteState(String id) {
@@ -394,15 +406,7 @@ public class AstAccessor {
 		return (MethodInvocation) fsm2Exp.get("/").get(fsm2Exp.get("/").size() - 1);
 	}
 
-	private ClassInstanceCreation buildFsm(AST ast) {
-		ClassInstanceCreation newInstance = ast.newClassInstanceCreation();
-		newInstance.setType(ast.newSimpleType(ast.newSimpleName("Fsm")));
 
-		StringLiteral emtpyString = ast.newStringLiteral();
-		newInstance.arguments().add(emtpyString);
-
-		return newInstance;
-	}
 
 	private MethodInvocation buildMethodInvocation(String name, AST ast) {
 		MethodInvocation res = ast.newMethodInvocation();

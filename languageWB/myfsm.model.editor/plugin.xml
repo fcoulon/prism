@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+	<extension point="org.eclipse.ui.popupMenus">
+      <objectContribution id="myfsm.editor.RunTrafoAction" objectClass="myfsm.Machine">
+         <action class="myfsm.menu.AddStateTrafo" enablesFor="1"
+            id="myfsm.menu.AddStateTrafoId" label="Add State"
+            menubarPath="additions">
+         </action>
+      </objectContribution>
+   	</extension>
+
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated myfsm -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="myfsm.presentation.MyfsmModelWizardID"
+            name="%_UI_MyfsmModelWizard_label"
+            class="myfsm.presentation.MyfsmModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MyfsmModelFile.gif">
+         <description>%_UI_MyfsmModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated myfsm -->
+      <editor
+            id="myfsm.presentation.MyfsmEditorID"
+            name="%_UI_MyfsmEditor_label"
+            icon="icons/full/obj16/MyfsmModelFile.gif"
+            extensions="myfsm"
+            class="myfsm.presentation.MyfsmEditor"
+            contributorClass="myfsm.presentation.MyfsmActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

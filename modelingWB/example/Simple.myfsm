@@ -5,12 +5,7 @@
   </states>
   <states name="closed">
     <transitions target="//@states.2" event="lock"/>
-    <transitions target="//@states.0" event="open"/>
   </states>
-  <states name="locked">
-    <transitions target="//@states.1" event="unlock"/>
-  </states>
-  <states name="b">
-    <transitions target="//@states.2"/>
-  </states>
+  <states name="locked"/>
+  <states name="foobar"/>
 </myfsm:Machine>

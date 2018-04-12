@@ -22,8 +22,11 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.text.edits.MalformedTreeException;
@@ -73,6 +76,30 @@ public class AstUpdater implements Consumer {
 		astRoot.accept(fsmFinder);
 
 		return fsmFinder.getFsm();
+	}
+	
+	public static List<Expression> createEmptyFSM(AST ast) {
+		ClassInstanceCreation newFsm = buildFsm(ast);
+		MethodInvocation end = buildEndInvocation(ast);
+		end.setExpression(newFsm);
+		return Arrays.asList(newFsm,end);
+	}
+	
+	private static ClassInstanceCreation buildFsm(AST ast) {
+		ClassInstanceCreation newInstance = ast.newClassInstanceCreation();
+		newInstance.setType(ast.newSimpleType(ast.newSimpleName("Fsm")));
+
+		StringLiteral emtpyString = ast.newStringLiteral();
+		newInstance.arguments().add(emtpyString);
+
+		return newInstance;
+	}
+	
+	private static MethodInvocation buildEndInvocation(AST ast) {
+		MethodInvocation res = ast.newMethodInvocation();
+		res.setName(ast.newSimpleName("end"));
+
+		return res;
 	}
 
 	@Override
@@ -129,7 +156,7 @@ public class AstUpdater implements Consumer {
 
 			// update of the compilation unit
 			cu.getBuffer().setContents(document.get());
-//			cu.getBuffer().save(null, true);
+			cu.getBuffer().save(null, true);
 
 		} catch (JavaModelException e) {
 			e.printStackTrace(System.out);
@@ -277,7 +304,51 @@ public class AstUpdater implements Consumer {
 	}
 
 	@Override
-	public String getID() {
+	public String getId() {
 		return "JavaConsumer";
+	}
+
+	@Override
+	public void synchronize(Patch patch) {
+		//FIXME: copy/past from apply(Patch)
+		ICompilationUnit cu = getAstRoot();
+
+		ASTParser parser = ASTParser.newParser(AST.JLS8);
+		parser.setSource(cu);
+		CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
+
+		List<Expression> fsm = getFSM(astRoot);
+		if(fsm.isEmpty())
+			return; //TODO: raise error?
+		this.fsmAccessor = new AstAccessor(fsm);
+
+		String source;
+		try {
+			source = cu.getSource();
+			Document document = new Document(source);
+
+			astRoot.recordModifications();
+
+			this.fsmAccessor.deleteMachine("/");
+			apply(patch.getEdits(), astRoot.getAST());
+
+			// computation of the text edits
+			TextEdit edits = astRoot.rewrite(document, cu.getJavaProject().getOptions(true));
+
+			// computation of the new source code
+			edits.apply(document);
+
+			// update of the compilation unit
+			cu.getBuffer().setContents(document.get());
+			cu.getBuffer().save(null, true);
+
+		} catch (JavaModelException e) {
+			e.printStackTrace(System.out);
+		} catch (MalformedTreeException e) {
+			e.printStackTrace();
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

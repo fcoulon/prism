@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<myfsm:Machine xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:myfsm="http://www.example.org/myfsm">
+  <states name="S1">
+    <transitions target="S2" event="a"/>
+  </states>
+  <states name="S2"/>
+</myfsm:Machine>

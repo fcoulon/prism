@@ -20,15 +20,17 @@ import org.eclipse.jdt.core.dom.Expression;
 import edit.Patch;
 import slebus.AstAccessor;
 import slebus.AstUpdater;
-import slebus.PatchProducer;
+import slebus.FsmComparator;
 import slebus.Producer;
 
-public class JavaProducer implements Producer {
+public class JavaProducer extends AstUpdater implements Producer {
 
 	IFile srcFile;
-
+	String id;
+	
 	public JavaProducer(IFile srcFile) {
 		this.srcFile = srcFile;
+		this.id = srcFile.getName();
 	}
 
 	/**
@@ -39,16 +41,16 @@ public class JavaProducer implements Producer {
 	@Override
 	public Patch produce() {
 		
-		List<Expression> oldFsm = AstUpdater.getFSM(getOldAst().get());
-		List<Expression> newFsm = AstUpdater.getFSM(getNewAst().get());
+		Optional<CompilationUnit> oldAst = getOldAst();
+		Optional<CompilationUnit> newAst = getNewAst();
 
-		if(!oldFsm.isEmpty() && !newFsm.isEmpty()) {
-			AstAccessor oldAst = new AstAccessor(oldFsm);
-			AstAccessor newAst = new AstAccessor(newFsm);
-			return PatchProducer.compare(oldAst, newAst);
+		if(oldAst.isPresent() && newAst.isPresent()) {
+			List<Expression> oldFsm = AstUpdater.getFSM(oldAst.get());
+			List<Expression> newFsm = AstUpdater.getFSM(newAst.get());
+			return FsmComparator.compare(id, new AstAccessor(oldFsm), new AstAccessor(newFsm));
 		}
 		
-		return new Patch();
+		return new Patch(id);
 	}
 	
 	private Optional<CompilationUnit> getCompilationUnit(InputStream input) {
@@ -93,8 +95,15 @@ public class JavaProducer implements Producer {
 	}
 
 	@Override
-	public String getID() {
-		return "JavaProducer";
+	public Patch synchronize() {
+		Optional<CompilationUnit> newAst = getNewAst();
+
+		if(newAst.isPresent()) {
+			List<Expression> newFsm = AstUpdater.getFSM(newAst.get());
+			return FsmComparator.fsmToPatch(id, new AstAccessor(newFsm));
+		}
+		
+		return new Patch(id);
 	}
 
 }

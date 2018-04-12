@@ -1,5 +1,7 @@
 package my.project.design;
 
+import java.util.Optional;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -18,13 +20,21 @@ public class SessionListener implements SessionManagerListener {
 		System.out.println("Start listening Session");
 		
 		IFile emfFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember("example/Simple.myfsm");
-		ide.Activator.getWorkspaceListener().addNotifiyngFile(emfFile, new EmfProducer(emfFile));
+		Optional<EmfProducer> emfProducer = createProducerFor(newSession, watchedResource);
 		
+		if(emfFile != null && emfProducer.isPresent()) {
+			ide.Activator.getWorkspaceListener().getBus().subscribe(emfProducer.get(), "FSM");
+			ide.Activator.getWorkspaceListener().addNotifiyngFile(emfFile, emfProducer.get());
+		}
+	}
+	
+	private Optional<EmfProducer> createProducerFor(Session newSession, URI resourceURI) {
 		for (Resource resource : newSession.getSemanticResources()) {
 			if(resource.getURI().equals(watchedResource)) {
-				ide.Activator.getWorkspaceListener().getBus().subscribe(new EmfConsumer(newSession, resource), "JavaToEMF");
+				return Optional.of(new EmfProducer(newSession, resource));
 			}
 		}
+		return Optional.empty();
 	}
 
 	@Override

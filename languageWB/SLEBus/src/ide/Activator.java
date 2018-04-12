@@ -6,6 +6,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import io.usethesource.vallang.impl.persistent.ValueFactory;
+import rascal.RascalProducer;
 import slebus.AstUpdater;
 
 public class Activator extends AbstractUIPlugin {
@@ -19,10 +21,17 @@ public class Activator extends AbstractUIPlugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         
-        //FIXME: register through UI / extension point
-        IFile sourceFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(AstUpdater.FSM_Project+"/src/"+AstUpdater.PKG+"/"+AstUpdater.CLASS);
+        ClassLoader cl = this.getClass().getClassLoader();
+        
         WorkspaceListener listener = getWorkspaceListener();
-        listener.addNotifiyngFile(sourceFile, new JavaProducer(sourceFile));
+        
+        IFile sourceFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(AstUpdater.FSM_Project+"/src/"+AstUpdater.PKG+"/"+AstUpdater.CLASS);
+        JavaProducer javaProducer = new JavaProducer(sourceFile);
+        RascalProducer rascalProducer = new RascalProducer(ValueFactory.getInstance());
+//        
+        listener.getBus().createStream(javaProducer, "FSM");
+        listener.getBus().subscribe(rascalProducer, "FSM");
+        listener.addNotifiyngFile(sourceFile, javaProducer);
         
         //Watch the workspace
         ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);

@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.transaction,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
- myfsm.model
+ myfsm.model,
+ org.eclipse.emf.workspace
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: %providerName

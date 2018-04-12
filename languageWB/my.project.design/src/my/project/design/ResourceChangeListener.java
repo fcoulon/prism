@@ -23,14 +23,14 @@ import edit.UnSet;
 @Deprecated
 public class ResourceChangeListener extends EContentAdapter {
 	
-	Patch patch = new Patch();
+	Patch patch = new Patch("Deprecated");
 	
 	/**
 	 * Return all changes since the last call of getPatch()
 	 */
 	public Patch getPatch() {
 		Patch res = patch;
-		patch = new Patch();
+		patch = new Patch("Deprecated");
 		return res;
 	}
 

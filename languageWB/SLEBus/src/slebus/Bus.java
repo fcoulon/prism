@@ -1,38 +1,69 @@
 package slebus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import edit.Patch;
 
 public class Bus {
 	
-	Map<String,List<Consumer>> subscribers = new HashMap<String,List<Consumer>>();
+	List<Stream> streams = new ArrayList<Stream>();
 	
-	/**
-	 * Subscribes 'cons' to Patchs published on 'id'
-	 */
-	public void subscribe(Consumer cons, String id) {
-		List<Consumer> group = subscribers.get(id);
-		if(group == null) {
-			group = new ArrayList<Consumer>();
-			subscribers.put(id, group);
+	public void createStream(Producer base, String streamId) {
+		
+		Optional<Stream> targetStream = 
+				streams
+				.stream() //Stream my streams
+				.filter(stream -> stream.getId().equals(streamId))
+				.findFirst();
+		
+		if(targetStream.isPresent()) {
+			//TODO: error already exist
 		}
-		group.add(cons);
+		else {
+			streams.add(new Stream(streamId,base));
+		}
 	}
 	
 	/**
-	 * Publish 'p' on 'id'
+	 * Subscribes 'cons' to published Patchs from 'streamId'
 	 */
-	public void publish(Patch p, String id) {
+	public void subscribe(Consumer cons, String streamId) {
 		
+		Optional<Stream> targetStream = 
+			streams
+			.stream() //Stream my streams
+			.filter(stream -> stream.getId().equals(streamId))
+			.findFirst();
+		
+		if(targetStream.isPresent()) {
+			targetStream.get().synchronize(cons);
+		}
+		else {
+			//TODO: error stream not found?
+		}
+	}
+	
+	/**
+	 * Publish 'p' on 'streamId'
+	 */
+	public void publish(Patch p, String streamId) {
+		
+		System.out.println("Publish on "+streamId);
 		System.out.println(p);
 		
-		List<Consumer> group = subscribers.get(id);
-		if(group != null) {
-			group.stream().forEach(cons -> cons.consume(p));
+		Optional<Stream> targetStream = 
+				streams
+				.stream() //Stream my streams
+				.filter(stream -> stream.getId().equals(streamId))
+				.findFirst();
+		
+		if(targetStream.isPresent()) {
+			targetStream.get().push(p);
+		}
+		else {
+			//TODO: error stream not found?
 		}
 	}
 }

@@ -6,10 +6,12 @@ import java.util.List;
 
 public class Patch {
 
+	String sourceID;
 	List<Edit> edits;
 
-	public Patch() {
+	public Patch(String sourceID) {
 		edits = new ArrayList<Edit>();
+		this.sourceID = sourceID;
 		// edits.add(new Create("/","Machine"));
 		// edits.add(new Create("//state.1","State"));
 		// edits.add(new Create("//state.1/transition.0","Trans"));
@@ -40,5 +42,9 @@ public class Patch {
 			}
 		}
 		return sb.toString();
+	}
+	
+	public String getSourceID() {
+		return sourceID;
 	}
 }

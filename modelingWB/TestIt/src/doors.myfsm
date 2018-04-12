@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<myfsm:Machine xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:myfsm="http://www.example.org/myfsm" name="Doors" initial="//@states.0">
+  <states name="closed">
+    <transitions target="//@states.1" event="open"/>
+    <transitions target="//@states.2" event="lock"/>
+  </states>
+  <states name="opened">
+    <transitions target="//@states.0" event="closesss"/>
+  </states>
+  <states name="locked2">
+    <transitions target="//@states.0" event="unlock"/>
+  </states>
+</myfsm:Machine>

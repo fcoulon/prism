@@ -3,6 +3,7 @@ package ide;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import lang.ecore.bridge.EMFBridge;
 import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
@@ -11,6 +12,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 
 import edit.Patch;
+//import lang.ecore.bridge.EMFBridge;
 import slebus.AstUpdater;
 import slebus.Bus;
 import slebus.Producer;
@@ -22,10 +24,6 @@ public class WorkspaceListener implements IResourceChangeListener {
 	
 	Bus bus = new Bus();
 	Map<IFile,Producer> notifier = new HashMap<>();
-	
-	public WorkspaceListener() {
-		bus.subscribe(new AstUpdater(), "EMFtoJava"); //FIXME: 
-	}
 	
 	public void addNotifiyngFile(IFile file, Producer p) {
 		notifier.put(file, p);
@@ -44,13 +42,7 @@ public class WorkspaceListener implements IResourceChangeListener {
 				System.out.println("Save spotted !");
 				Producer producer = notifier.get(file.get());
 				Patch patch = producer.produce();
-				
-				if(file.get().getFileExtension().equals("java")) {
-					bus.publish(patch, "JavaToEMF");
-				}
-				else {
-					bus.publish(patch, "EMFtoJava");
-				}
+				bus.publish(patch, "FSM");
 			}
 		}
 	}
