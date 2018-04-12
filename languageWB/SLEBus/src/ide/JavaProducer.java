@@ -50,7 +50,7 @@ public class JavaProducer extends AstUpdater implements Producer {
 			return FsmComparator.compare(id, new AstAccessor(oldFsm), new AstAccessor(newFsm));
 		}
 		
-		return new Patch(id);
+		return new Patch(getId());
 	}
 	
 	private Optional<CompilationUnit> getCompilationUnit(InputStream input) {

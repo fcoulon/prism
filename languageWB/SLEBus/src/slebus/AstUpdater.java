@@ -305,7 +305,7 @@ public class AstUpdater implements Consumer {
 
 	@Override
 	public String getId() {
-		return "JavaConsumer";
+		return FSM_Project+"/"+PKG+"/"+CLASS;
 	}
 
 	@Override

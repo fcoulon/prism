@@ -1,4 +1,4 @@
-machine Doors  init opened
+machine Doors init opened
 
   state opened
   on close => closed

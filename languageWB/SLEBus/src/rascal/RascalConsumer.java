@@ -56,7 +56,7 @@ public class RascalConsumer implements Consumer {
 
 	@Override
 	public String getId() {
-		return "RascalConsumer";
+		return "TestIt/src/doors.mf";
 	}
 
 	@Override

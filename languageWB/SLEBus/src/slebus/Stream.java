@@ -34,4 +34,8 @@ public class Stream {
 		.forEach(cons -> cons.consume(p));
 	}
 	
+	public List<Consumer> getConsumers() {
+		return consumers;
+	}
+	
 }

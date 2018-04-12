@@ -103,7 +103,7 @@ void init() {
 	    Patch p = diff(#lang::myfsm::MetaModel::Machine, old, models[myModel]);
 	    println("[Rascal] Publish PATCH: ");
 	    iprintln(p);
-	    publish("RascalConsumer",p);
+	    publish("TestIt/src/doors.mf",p);
 	      
 	    println("Returning OK");
 	    return {};

@@ -228,7 +228,7 @@ public class EmfConsumer implements Consumer {
 
 	@Override
 	public String getId() {
-		return "EmfConsumer";
+		return model.getURI().toString();
 	}
 
 	@Override

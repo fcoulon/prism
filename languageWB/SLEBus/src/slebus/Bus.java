@@ -66,4 +66,8 @@ public class Bus {
 			//TODO: error stream not found?
 		}
 	}
+	
+	public List<Stream> getStreams() {
+		return streams;
+	}
 }
