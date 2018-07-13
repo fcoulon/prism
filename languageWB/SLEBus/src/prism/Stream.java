@@ -10,6 +10,7 @@ public class Stream {
 	String id;
 	Producer base;
 	List<Consumer> consumers = new ArrayList<Consumer>();
+	int counter = 0;
 	
 	public Stream(String id, Producer base) {
 		this.id = id;
@@ -28,6 +29,11 @@ public class Stream {
 	}
 	
 	public void push(Patch p) {
+		
+		counter++;
+		System.out.println("\n[DEBUG PRISM] ("+ counter + ") Patch from " + p.getSourceID());
+		System.out.println(p);
+		System.out.println("---------------------\n");
 		
 		if(p.getEdits().isEmpty())
 			return;
