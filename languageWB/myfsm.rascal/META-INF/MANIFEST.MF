@@ -5,5 +5,5 @@ Bundle-SymbolicName: myfsm_rascal;singleton:=true
 Bundle-Version: 1.0.0
 Require-Bundle: rascal_eclipse,
  rascal_ecore;bundle-version="1.0.0",
- SLEBus
+ Prism
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SLEBus
-Bundle-SymbolicName: SLEBus;singleton:=true
+Bundle-SymbolicName: Prism;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: edit,
  ide,
