@@ -1,4 +1,4 @@
-package slebus;
+package prism;
 
 import java.util.ArrayList;
 import java.util.Collections;

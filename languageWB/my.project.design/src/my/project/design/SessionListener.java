@@ -10,6 +10,8 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManagerListener;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
+import prism.emf.EmfProducer;
+
 public class SessionListener implements SessionManagerListener {
 
 	private URI watchedResource = URI.createURI("platform:/resource/example/Simple.myfsm");

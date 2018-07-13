@@ -154,5 +154,5 @@ void synchronize(Patch p) {
 	
 }
 
-@javaClass{rascal.RascalProducer}
+@javaClass{prism.rascal.RascalProducer}
 java void publish(str sourceId, Patch p);

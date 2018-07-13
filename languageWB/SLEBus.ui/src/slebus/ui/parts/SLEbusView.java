@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 
 import ide.Activator;
-import slebus.Bus;
-import slebus.Stream;
+import prism.Bus;
+import prism.Stream;
 
 public class SLEbusView {
 	private Label myLabelInView;

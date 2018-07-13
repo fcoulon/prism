@@ -1,4 +1,4 @@
-package slebus;
+package prism;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +15,7 @@ import edit.Insert;
 import edit.Patch;
 import edit.Set;
 import edit.UnSet;
+import prism.java.JavaConsumer;
 
 public class FsmComparator {
 	
@@ -118,7 +119,7 @@ public class FsmComparator {
 	
 	public static Patch fsmToPatch(String sourceID, AstAccessor fsm) {
 		AST ast = AST.newAST(AST.JLS8);
-		List<Expression> oldFsm = AstUpdater.createEmptyFSM(ast);
+		List<Expression> oldFsm = JavaConsumer.createEmptyFSM(ast);
 		AstAccessor fsm1 = new AstAccessor(oldFsm);
 		Patch p = compare(sourceID, fsm1, fsm);
 		p.getEdits().add(0, new Create("/", "Machine"));

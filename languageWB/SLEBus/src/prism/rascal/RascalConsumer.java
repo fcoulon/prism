@@ -1,4 +1,4 @@
-package rascal;
+package prism.rascal;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,7 +32,7 @@ import io.usethesource.vallang.type.Type;
 import io.usethesource.vallang.type.TypeFactory;
 import io.usethesource.vallang.type.TypeStore;
 import lang.ecore.bridge.EMFBridge;
-import slebus.Consumer;
+import prism.Consumer;
 
 public class RascalConsumer implements Consumer {
 	

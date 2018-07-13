@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import lang.ecore.bridge.EMFBridge;
+import prism.Bus;
+import prism.Producer;
+import prism.java.JavaConsumer;
+
 import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
@@ -12,10 +16,6 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 
 import edit.Patch;
-//import lang.ecore.bridge.EMFBridge;
-import slebus.AstUpdater;
-import slebus.Bus;
-import slebus.Producer;
 
 /**
  * Watch for save operation on specific files

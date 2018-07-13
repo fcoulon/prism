@@ -1,4 +1,4 @@
-package my.project.design;
+package prism.emf;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import edit.Set;
 import edit.UnSet;
 import myfsm.Machine;
 import myfsm.MyfsmPackage;
-import slebus.Consumer;
+import prism.Consumer;
 
 public class EmfConsumer implements Consumer {
 

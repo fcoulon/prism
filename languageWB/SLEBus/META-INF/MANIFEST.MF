@@ -5,8 +5,9 @@ Bundle-SymbolicName: Prism;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: edit,
  ide,
- slebus,
- rascal
+ prism,
+ prism.emf,
+ prism.rascal
 Require-Bundle: org.eclipse.jdt.core,
  org.eclipse.core.resources,
  org.eclipse.text,
@@ -18,7 +19,10 @@ Require-Bundle: org.eclipse.jdt.core,
  org.eclipse.emf.common,
  org.eclipse.equinox.registry,
  rascal_eclipse,
- rascal_ecore
+ rascal_ecore,
+ org.eclipse.emf.transaction,
+ myfsm.model,
+ org.eclipse.emf.workspace
 Import-Package: org.eclipse.ui.plugin
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: ide.Activator

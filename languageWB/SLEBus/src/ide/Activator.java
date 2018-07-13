@@ -7,8 +7,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import io.usethesource.vallang.impl.persistent.ValueFactory;
-import rascal.RascalProducer;
-import slebus.AstUpdater;
+import prism.java.JavaConsumer;
+import prism.java.JavaProducer;
+import prism.rascal.RascalProducer;
 
 public class Activator extends AbstractUIPlugin {
 
@@ -25,7 +26,7 @@ public class Activator extends AbstractUIPlugin {
         
         WorkspaceListener listener = getWorkspaceListener();
         
-        IFile sourceFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(AstUpdater.FSM_Project+"/src/"+AstUpdater.PKG+"/"+AstUpdater.CLASS);
+        IFile sourceFile = (IFile) ResourcesPlugin.getWorkspace().getRoot().findMember(JavaConsumer.FSM_Project+"/src/"+JavaConsumer.PKG+"/"+JavaConsumer.CLASS);
         JavaProducer javaProducer = new JavaProducer(sourceFile);
         RascalProducer rascalProducer = new RascalProducer(ValueFactory.getInstance());
 //        

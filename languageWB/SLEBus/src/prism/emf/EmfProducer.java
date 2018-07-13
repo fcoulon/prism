@@ -1,4 +1,4 @@
-package my.project.design;
+package prism.emf;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ import edit.UnSet;
 import myfsm.Machine;
 import myfsm.State;
 import myfsm.Trans;
-import slebus.Producer;
+import prism.Producer;
 
 public class EmfProducer extends EmfConsumer implements Producer{
 

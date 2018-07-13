@@ -1,4 +1,4 @@
-package ide;
+package prism.java;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,12 +18,11 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
 
 import edit.Patch;
-import slebus.AstAccessor;
-import slebus.AstUpdater;
-import slebus.FsmComparator;
-import slebus.Producer;
+import prism.AstAccessor;
+import prism.FsmComparator;
+import prism.Producer;
 
-public class JavaProducer extends AstUpdater implements Producer {
+public class JavaProducer extends JavaConsumer implements Producer {
 
 	IFile srcFile;
 	String id;
@@ -36,7 +35,7 @@ public class JavaProducer extends AstUpdater implements Producer {
 	/**
 	 * Compare current file's content with the last state of the history
 	 *  
-	 * @see slebus.Producer#produce()
+	 * @see prism.Producer#produce()
 	 */
 	@Override
 	public Patch produce() {
@@ -45,8 +44,8 @@ public class JavaProducer extends AstUpdater implements Producer {
 		Optional<CompilationUnit> newAst = getNewAst();
 
 		if(oldAst.isPresent() && newAst.isPresent()) {
-			List<Expression> oldFsm = AstUpdater.getFSM(oldAst.get());
-			List<Expression> newFsm = AstUpdater.getFSM(newAst.get());
+			List<Expression> oldFsm = JavaConsumer.getFSM(oldAst.get());
+			List<Expression> newFsm = JavaConsumer.getFSM(newAst.get());
 			return FsmComparator.compare(id, new AstAccessor(oldFsm), new AstAccessor(newFsm));
 		}
 		
@@ -99,7 +98,7 @@ public class JavaProducer extends AstUpdater implements Producer {
 		Optional<CompilationUnit> newAst = getNewAst();
 
 		if(newAst.isPresent()) {
-			List<Expression> newFsm = AstUpdater.getFSM(newAst.get());
+			List<Expression> newFsm = JavaConsumer.getFSM(newAst.get());
 			return FsmComparator.fsmToPatch(id, new AstAccessor(newFsm));
 		}
 		

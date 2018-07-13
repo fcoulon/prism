@@ -1,4 +1,4 @@
-package rascal;
+package prism.rascal;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,7 +24,7 @@ import io.usethesource.vallang.ITuple;
 import io.usethesource.vallang.IValue;
 import io.usethesource.vallang.IValueFactory;
 import io.usethesource.vallang.type.Type;
-import slebus.Producer;
+import prism.Producer;
 
 public class RascalProducer extends RascalConsumer implements Producer {
 	

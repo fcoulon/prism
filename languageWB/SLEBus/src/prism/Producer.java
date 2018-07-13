@@ -1,4 +1,4 @@
-package slebus;
+package prism;
 
 import edit.Patch;
 

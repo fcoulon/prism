@@ -1,4 +1,4 @@
-package slebus;
+package prism.java;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,8 +40,11 @@ import edit.Patch;
 import edit.Remove;
 import edit.Set;
 import edit.UnSet;
+import prism.AstAccessor;
+import prism.Consumer;
+import prism.FsmFinder;
 
-public class AstUpdater implements Consumer {
+public class JavaConsumer implements Consumer {
 
 	public static final String FSM_Project = "foo";
 	public static final String PKG = "main";

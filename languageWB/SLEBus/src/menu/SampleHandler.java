@@ -16,9 +16,9 @@ import io.usethesource.vallang.IList;
 import io.usethesource.vallang.IValue;
 import io.usethesource.vallang.type.Type;
 import lang.ecore.bridge.EMFBridge;
-import rascal.RascalProducer;
-import slebus.AstUpdater;
-import slebus.Bus;
+import prism.Bus;
+import prism.java.JavaConsumer;
+import prism.rascal.RascalProducer;
 
 public class SampleHandler extends AbstractHandler {
 
@@ -54,7 +54,7 @@ public class SampleHandler extends AbstractHandler {
 	private void initTheBus() {
 		Bus bus = new Bus();
 		//TODO: bus.createStream(base, "FSM");
-		bus.subscribe(new AstUpdater(), "FSM");
+		bus.subscribe(new JavaConsumer(), "FSM");
 		//TODO: others
 	}
 }
