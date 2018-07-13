@@ -25,6 +25,11 @@ public class WorkspaceListener implements IResourceChangeListener {
 	Bus bus = new Bus();
 	Map<IFile,Producer> notifier = new HashMap<>();
 	
+	/*
+	 *  count the number of save events
+	 */
+	int counter = -1; // init -1 to ignore the first save of the .mf file
+	
 	public void addNotifiyngFile(IFile file, Producer p) {
 		notifier.put(file, p);
 	}
@@ -39,10 +44,13 @@ public class WorkspaceListener implements IResourceChangeListener {
 		Optional<IFile> file = getMatchingFile(event.getDelta());
 		if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
 			if (file.isPresent()) {
-				System.out.println("Save spotted !");
-				Producer producer = notifier.get(file.get());
-				Patch patch = producer.produce();
-				bus.publish(patch, "FSM");
+				System.out.println("Save spotted ! ("+counter + ")");
+				 if(!isConsuming()) {
+					Producer producer = notifier.get(file.get());
+					Patch patch = producer.produce();
+					bus.publish(patch, "FSM");
+				}
+				counter++;
 			}
 		}
 	}
@@ -58,8 +66,18 @@ public class WorkspaceListener implements IResourceChangeListener {
 		}
 		return Optional.empty();
 	}
+
+	/*
+	 * FIXME: assume notifier.entrySet().size() never change
+	 */
+	private boolean isConsuming() {
+		int numberOfCounsumer = notifier.entrySet().size(); 
+		
+		return (counter % numberOfCounsumer) != 0;
+	}
 	
 	public Bus getBus() {
 		return bus;
 	}
+
 }
