@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -480,6 +481,7 @@ public class IO {
 							}
 					        finally {
 					        	((IDocumentExtension4)doc).stopRewriteSession(session);
+					        	editor.doSave(new NullProgressMonitor());
 					        }				        
 						}
 						return Status.OK_STATUS;
