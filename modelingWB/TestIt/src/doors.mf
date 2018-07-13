@@ -1,16 +1,14 @@
 machine Doors init opened
 
   state opened
-  on close => closed
+  	on close => closed
   end
  
   state closed
-  on lock => locked
+  	on lock => locked
   end
   
-  state locked  end
-  
-  state foobar
+  state locked
   end
   
 end

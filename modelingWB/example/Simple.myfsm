@@ -7,5 +7,4 @@
     <transitions target="//@states.2" event="lock"/>
   </states>
   <states name="locked"/>
-  <states name="foobar"/>
 </myfsm:Machine>

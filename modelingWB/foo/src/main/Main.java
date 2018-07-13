@@ -12,7 +12,6 @@ public class Main {
 				.state("closed")
 					.target("locked").on("lock")
 				.state("locked")
-				.state("foobar")
 			.end();
 
 		//test
