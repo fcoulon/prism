@@ -321,24 +321,32 @@ public class AstAccessor {
 	public void setTransition_Target(String id, String value) {
 		List<Expression> calls = state2Exp.get(value);
 		if(calls != null) {
-			MethodInvocation state = (MethodInvocation) state2Exp.get(value).get(0);
-			StringLiteral name = (StringLiteral) state.arguments().get(0);
+			List<Expression> stateExp = state2Exp.get(value);
+			List<Expression> transitionExp = transition2Exp.get(id);
 			
-			MethodInvocation target = (MethodInvocation) transition2Exp.get(id).get(0);
-			target.arguments().clear();
-			StringLiteral stringLit = ast.newStringLiteral();
-			stringLit.setLiteralValue(name.getLiteralValue());
-			target.arguments().add(stringLit);
+			if(stateExp != null && transitionExp != null) {
+				MethodInvocation state = (MethodInvocation) stateExp.get(0);
+				StringLiteral name = (StringLiteral) state.arguments().get(0);
+				
+				MethodInvocation target = (MethodInvocation) transitionExp.get(0);
+				target.arguments().clear();
+				StringLiteral stringLit = ast.newStringLiteral();
+				stringLit.setLiteralValue(name.getLiteralValue());
+				target.arguments().add(stringLit);
+			}
 		}
 	}
 
 	public void setTransition_Event(String id, String value) {
 		if (transition2Exp.get(id).size() == 2) {
-			MethodInvocation on = (MethodInvocation) transition2Exp.get(id).get(1);
-			on.arguments().clear();
-			StringLiteral stringLit = ast.newStringLiteral();
-			stringLit.setLiteralValue(value);
-			on.arguments().add(stringLit);
+			List<Expression> transitionExp = transition2Exp.get(id);
+			if(transitionExp != null) {
+				MethodInvocation on = (MethodInvocation) transitionExp.get(1);
+				on.arguments().clear();
+				StringLiteral stringLit = ast.newStringLiteral();
+				stringLit.setLiteralValue(value);
+				on.arguments().add(stringLit);
+			}
 		} else {
 			MethodInvocation insertionPoint = findInsertionPoint(id);
 			MethodInvocation on = buildMethodInvocation(ON, ast);
@@ -353,16 +361,19 @@ public class AstAccessor {
 	}
 
 	public void unsetTransition_Event(String id) {
-		MethodInvocation target = (MethodInvocation) transition2Exp.get(id).get(0);
-		MethodInvocation on = (MethodInvocation) transition2Exp.get(id).get(1);
-		MethodInvocation insertionPoint = findInsertionPoint(id);
-		on.setExpression(null);
-		insertionPoint.setExpression(target);
-
-		fsm2Exp.get("/").remove(on);
-		String stateId = id.substring(0, id.indexOf("/"));
-		state2Exp.get(stateId).remove(on);
-		transition2Exp.get(id).remove(on);
+		List<Expression> transitionExp = transition2Exp.get(id);
+		if(transitionExp != null) {
+			MethodInvocation target = (MethodInvocation) transitionExp.get(0);
+			MethodInvocation on = (MethodInvocation) transitionExp.get(1);
+			MethodInvocation insertionPoint = findInsertionPoint(id);
+			on.setExpression(null);
+			insertionPoint.setExpression(target);
+			
+			fsm2Exp.get("/").remove(on);
+			String stateId = id.substring(0, id.indexOf("/"));
+			state2Exp.get(stateId).remove(on);
+			transition2Exp.get(id).remove(on);
+		}
 	}
 
 	/*
