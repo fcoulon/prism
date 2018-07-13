@@ -28,6 +28,10 @@ public class Stream {
 	}
 	
 	public void push(Patch p) {
+		
+		if(p.getEdits().isEmpty())
+			return;
+		
 		consumers
 		.stream()
 		.filter(cons -> !cons.getId().equals(p.getSourceID())) // don't consume your own patch
