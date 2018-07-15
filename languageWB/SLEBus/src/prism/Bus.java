@@ -50,8 +50,8 @@ public class Bus {
 	 */
 	public void publish(Patch p, String streamId) {
 		
-		System.out.println("Publish on "+streamId);
-		System.out.println(p);
+//		System.out.println("Publish on "+streamId);
+//		System.out.println(p);
 		
 		Optional<Stream> targetStream = 
 				streams

@@ -54,13 +54,13 @@ public class RascalProducer extends RascalConsumer implements Producer {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println("Foobar!");
-		System.out.println(patch);
+//		System.out.println("Foobar!");
+//		System.out.println(patch);
 		
 		Patch res = valueToPatch(sourceId.getValue(), patch);
 		Activator.getWorkspaceListener().getBus().publish(res, "FSM");
 		
-		System.out.println(res);
+//		System.out.println(res);
 	}
 	
 	private Patch valueToPatch(String sourceId, ITuple value) {

@@ -27,38 +27,38 @@ import ParseTree;
   loc myTerm = |project://TestIt/src/doors.mf|;
 
   void applyPatch(Patch p) {
-  	iprintln(p);
+  	//iprintln(p);
   	
   	// build the model conforming to the current source code        
     <model, orgs> = tree2modelWithOrigins(#lang::myfsm::MetaModel::Machine, terms[myTerm], uri=myModel);
   	
   	// patch the original source code according to patch p    
-    println("[Rascal] Patching tree according to patch");
-    println(model);
-    println("[Rascal] patch:");
-    println(p);
+    //println("[Rascal] Patching tree according to patch");
+    //println(model);
+    //println("[Rascal] patch:");
+    //println(p);
     pt2 = patchTree(#lang::myfsm::Syntax::Machine, terms[myTerm], p, orgs, Tree(type[&U<:Tree] tt, str src) {
        return parse(tt, src);
     });
     
     // parse again to get locs right.
-    println("[Rascal] Reparse");
+    //println("[Rascal] Reparse");
     pt2 = parse(#lang::myfsm::Syntax::Machine, "<pt2>", myTerm);
-    println(pt2);
+    //println(pt2);
     
     // compute the textual diff between the old parse tree and the patched one
     println("[Rascal] Computing text diff");
     lrel[loc, str] d = ptDiff(terms[myTerm], pt2);
     
-    println("TEXT DIFF");
-    iprintln(d); 
+    //println("TEXT DIFF");
+    //iprintln(d); 
     
     // the patched tree is now the current one.
-    println("[Rascal] Saving new parse tree");
+    //println("[Rascal] Saving new parse tree");
     terms[myTerm] = pt2;
     
     // update the editor
-    println("[Rascal] Updating the editor");
+    //println("[Rascal] Updating the editor");
     termEd = termEditors[myTerm];
     termEd(d);
   }
@@ -77,12 +77,12 @@ void init() {
     builder(set[Message] (lang::myfsm::Syntax::Machine input) {
      
         // save the term
-        println("[Rascal] Saving the term <myTerm>");
+        //println("[Rascal] Saving the term <myTerm>");
         terms[myTerm] = input;
         
         
 	    // construct the model corresponding to the source code
-	    println("[Rascal] Tree 2 model");
+	    //println("[Rascal] Tree 2 model");
 	    <model, orgs> = tree2modelWithOrigins(#lang::myfsm::MetaModel::Machine, input, uri=myModel);
 	    
 	    // if no change in terms of the model, just return the parse tree    
@@ -90,7 +90,7 @@ void init() {
 	      return {};
 	    }
 	    
-		println("[Rascal] Saving the model");
+		//println("[Rascal] Saving the model");
 	    old = 
 		    if(myModel in models) {
 				models[myModel];
@@ -101,11 +101,11 @@ void init() {
 	    models[myModel] = model;
 	
 	    Patch p = diff(#lang::myfsm::MetaModel::Machine, old, models[myModel]);
-	    println("[Rascal] Publish PATCH: ");
-	    iprintln(p);
+	    //println("[Rascal] Publish PATCH: ");
+	    //iprintln(p);
 	    publish("TestIt/src/doors.mf",p);
 	      
-	    println("Returning OK");
+	    //println("Returning OK");
 	    return {};
 	 })
   });
@@ -113,14 +113,14 @@ void init() {
 
 void synchronize(Patch p) {
 
-	println("[Rascal] DEBUG:syncho patch");
-	println(p);
+	//println("[Rascal] DEBUG:syncho patch");
+	//println(p);
 
 	patchTreeVar = patch2tree(#lang::myfsm::Syntax::Machine, p, Tree(type[&U<:Tree] tt, str src) {
        return parse(tt, src);
     });
-    println("[DEBUG] patchTreeVar");
-	println(patchTreeVar);
+    //println("[DEBUG] patchTreeVar");
+	//println(patchTreeVar);
 	
 	//------------------
 	<patchModel, patchOrgs> = tree2modelWithOrigins(#lang::myfsm::MetaModel::Machine, patchTreeVar, uri=myModel);
@@ -132,22 +132,22 @@ void synchronize(Patch p) {
     });
     
     patchedTree = parse(#lang::myfsm::Syntax::Machine, "<patchedTree>", myTerm);
-    println("[DEBUG] patchedTree");
-	println(patchedTree);
+    //println("[DEBUG] patchedTree");
+	//println(patchedTree);
 	
-	println("[DEBUG] loc");
-	println(patchedTree@\loc);
+	//println("[DEBUG] loc");
+	//println(patchedTree@\loc);
 	//------------------
 		
 	lrel[loc, str] d = ptDiff(terms[myTerm], patchedTree);
-    println("TEXT DIFF");
-    iprintln(d);
+    //println("TEXT DIFF");
+    //iprintln(d);
     
-    println("[Rascal] Updating the editor");
+    //println("[Rascal] Updating the editor");
     termEd = termEditors[myTerm];
     
-    println("[DEBUG] replacement");
-    println("<patchedTree>");
+    //println("[DEBUG] replacement");
+    //println("<patchedTree>");
     
     replace = [<terms[myTerm]@\loc, "<patchedTree>">];
     termEd(replace);
