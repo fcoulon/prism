@@ -6,7 +6,7 @@ This repo contains :
  - An example FSM as EMF model, Java fluent API & Rascal grammar
  - The implementation of Patch production/consomation for EMF, Java FSM & Rascal
 
-<a href="demo.webm">
+<a href="https://raw.githubusercontent.com/fcoulon/prism/master/demo.webm">
   <img src="link.png"">
 </a> 
 
