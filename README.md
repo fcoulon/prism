@@ -7,7 +7,7 @@ This repo contains :
  - The implementation of Patch production/consomation for EMF, Java FSM & Rascal
 
  <video width="320" height="240" controls>
-  <source src="demo.webm" type="video/webm">
+  <source src="https://raw.githubusercontent.com/fcoulon/prism/master/demo.webm" type="video/webm">
 Your browser does not support the video tag.
 </video> 
 
