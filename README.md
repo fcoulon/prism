@@ -1,14 +1,16 @@
-POC of the SLEBus
-=================
+Prism
+=====
 
-This repo contains :
- - The Bus implementation
- - An example FSM as EMF model, Java fluent API & Rascal grammar
- - The implementation of Patch production/consomation for EMF, Java FSM & Rascal
+Prism is a framework to synchronize incarnations of a model shared in different technological spaces.
 
 <a href="https://raw.githubusercontent.com/fcoulon/prism/master/demo.webm">
   <img src="link.png"">
 </a> 
+
+This repo contains :
+ - The Prism framework
+ - A Finite State Machine language implemented in Rascal, EMF and Java fluent API
+ - Implementations of Patch producer/consumer for Rascal, EMF and Java
 
 
 Setup
@@ -28,8 +30,3 @@ Once you are in the second Eclipse instance
  3. Open 'TestIt/doors.mf'
  4. Now editing one representation should update the others (after a save)
 
-
-TODO:
- - Clean up the code
- - Remove hard coded stuff -> need a way to config (through extension point?)
- - Some tests :)
