@@ -10,7 +10,7 @@ public class Stream {
 	String id;
 	Producer base;
 	List<Consumer> consumers = new ArrayList<Consumer>();
-	int counter = 0;
+	int counter = -1;  // init -1 to ignore the first save of the .mf file
 	
 	public Stream(String id, Producer base) {
 		this.id = id;
@@ -30,18 +30,27 @@ public class Stream {
 	
 	public void push(Patch p) {
 		
+		if(!isConsuming() && !p.getEdits().isEmpty()) {
+			System.out.println("\n[DEBUG PRISM] ("+ counter + ") Patch from " + p.getSourceID());
+			System.out.println(p);
+			System.out.println("---------------------\n");
+
+			consumers
+			.stream()
+			.filter(cons -> !cons.getId().equals(p.getSourceID())) // don't consume your own patch
+			.forEach(cons -> cons.consume(p));
+		}
+		
 		counter++;
-		System.out.println("\n[DEBUG PRISM] ("+ counter + ") Patch from " + p.getSourceID());
-		System.out.println(p);
-		System.out.println("---------------------\n");
+	}
+	
+	/*
+	 * FIXME: assume consumers.size() never change
+	 */
+	private boolean isConsuming() {
+		int numberOfCounsumer = consumers.size(); 
 		
-		if(p.getEdits().isEmpty())
-			return;
-		
-		consumers
-		.stream()
-		.filter(cons -> !cons.getId().equals(p.getSourceID())) // don't consume your own patch
-		.forEach(cons -> cons.consume(p));
+		return (counter % numberOfCounsumer) != 0;
 	}
 	
 	public List<Consumer> getConsumers() {
