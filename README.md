@@ -6,12 +6,9 @@ This repo contains :
  - An example FSM as EMF model, Java fluent API & Rascal grammar
  - The implementation of Patch production/consomation for EMF, Java FSM & Rascal
 
- <video width="320" height="240" controls>
-  <source src="demo.ogg" type="video/ogg">
-Your browser does not support the video tag.
-</video> 
-
-![Screenshot](Screenshot.png)
+<a href="demo.webm">
+  <img src="link.png"">
+</a> 
 
 Setup
 -----
