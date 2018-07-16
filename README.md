@@ -7,12 +7,12 @@ Prism is a framework to synchronize incarnations of a model shared in different 
   <img src="link.png"">
 </a> 
 
-This repo contains :
- - The Prism framework
+This repository contains :
+ - *The Prism framework*
    * Located in `languageWB\Prism` and `languageWB\Prism.ui`
- - A Finite State Machine language implemented in Rascal, EMF and Java fluent API
+ - A *Finite State Machine language* implemented in Rascal, EMF and Java fluent API
    * Defined in `languageWB\myfsm.rascal\src\lang.myfsm\MetaModel.rsc`, `languageWB\myfsm.model\model\myfsm.ecore` and `modelingWB\JavaFSM\src\fluent\Fsm.java`
- - Implementations of Patch producers/consumers for Rascal, EMF and Java
+ - Implementations of Patch *producers/consumers* for Rascal, EMF and Java
    * Located in `languageWB/Prism/src/prism/rascal`, `languageWB/Prism/src/prism/emf` and `languageWB/Prism/src/prism/java`
 
 
