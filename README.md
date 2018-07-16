@@ -7,7 +7,8 @@ Prism is a framework to synchronize incarnations of a model shared in different 
   <img src="link.png"">
 </a> 
 
-This repository contains :
+This repository contains
+------------------------
  - **The Prism framework**
    * Located in `languageWB\Prism` and `languageWB\Prism.ui`
  - A **Finite State Machine language** implemented in Rascal, EMF and Java fluent API
