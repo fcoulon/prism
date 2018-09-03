@@ -20,7 +20,7 @@ This repository contains
 Setup
 -----
 
-0. Clone this repository on your machine (command `git clone git@github.com:fcoulon/prism.git` in a terminal) or [download](https://github.com/fcoulon/prism/archive/master.zip) and unzip it.
+0. Clone this repository on your machine (command `git clone https://github.com/fcoulon/prism.git` in a terminal) or [download](https://github.com/fcoulon/prism/archive/master.zip) and unzip it.
 1. Install Eclipse IDE for Java and DSL Developers [available here](http://www.eclipse.org/downloads/eclipse-packages/)
 2. Install Sirius in menu `Help` > `Install New Software...`, copy/past `http://download.eclipse.org/sirius/updates/releases/5.1.0/oxygen` in the `Work with` field, then type the `Enter` key. Check `Sirius` and click `Finish` to start the installation
 3. Install Rascal following the same procedure as `Sirius` with `https://update.rascal-mpl.org/stable/` for the `Work with` field
