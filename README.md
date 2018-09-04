@@ -32,7 +32,7 @@ Play
 ----
 Once you are in the second Eclipse instance
 
- 0. Check your are in the `Modeling` perspective (needed for Sirius)
+ 0. Check your are in the `Sirius` perspective
  1. Open `example/representation.aird` (Machine Diagram)
  2. Open `JavaFSM/src/main/Main.java`
  3. Open `TestIt/doors.mf` (should not be opened first for technical reason)
