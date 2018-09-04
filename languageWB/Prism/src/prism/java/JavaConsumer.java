@@ -46,7 +46,7 @@ import prism.FsmFinder;
 
 public class JavaConsumer implements Consumer {
 
-	public static final String FSM_Project = "foo";
+	public static final String FSM_Project = "JavaFSM";
 	public static final String PKG = "main";
 	public static final String CLASS = "Main.java";
 
