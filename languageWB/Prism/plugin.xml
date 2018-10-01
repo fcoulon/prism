@@ -36,5 +36,11 @@
          </menu>
       </menuContribution>
    </extension>
+<!--   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="ide.Startup">
+      </startup>
+   </extension>-->
 
 </plugin>

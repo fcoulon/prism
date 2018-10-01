@@ -6,5 +6,13 @@
          name="myfsm-rascal"
          point="rascal_eclipse.rascalLibrary">
    </extension>
+   <extension
+         point="impulse.languageDescription">
+      <language
+            description="Finite State Machine"
+            extensions="mf"
+            language="MyFSM">
+      </language>
+   </extension>
 
 </plugin>
