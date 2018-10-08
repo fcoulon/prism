@@ -56,20 +56,22 @@ public class Activator extends AbstractUIPlugin {
     private void closeRascalEditor() {
     	IWorkbench wb = PlatformUI.getWorkbench();
 		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-		IWorkbenchPage page = win.getActivePage();
-		
-		Display.getDefault().syncExec(new Runnable() {
-            public void run() {
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("TestIt");
-				if (project != null) {
-					IEditorInput input = new FileEditorInput(project.getFile("src/doors.mf"));
-					IEditorPart editor = page.findEditor(input);
-					if(editor != null) {
-						page.closeEditor(editor, true);
+		if(win != null) {
+			IWorkbenchPage page = win.getActivePage();
+			
+			Display.getDefault().syncExec(new Runnable() {
+				public void run() {
+					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("TestIt");
+					if (project != null && page != null) {
+						IEditorInput input = new FileEditorInput(project.getFile("src/doors.mf"));
+						IEditorPart editor = page.findEditor(input);
+						if(editor != null) {
+							page.closeEditor(editor, true);
+						}
 					}
 				}
-            }
-         });
+			});
+		}
     }
     
     public static WorkspaceListener getWorkspaceListener() {
