@@ -38,7 +38,15 @@ public class Stream {
 			consumers
 			.stream()
 			.filter(cons -> !cons.getId().equals(p.getSourceID())) // don't consume your own patch
-			.forEach(cons -> cons.consume(p));
+			.forEach(cons -> {
+				try {
+					cons.consume(p);
+					}
+				catch(Exception e) {
+					System.out.println("\n[DEBUG PRISM] This Consumer failed: " + cons.getId());
+					e.printStackTrace();
+				}
+			});
 		}
 		
 		counter++;
