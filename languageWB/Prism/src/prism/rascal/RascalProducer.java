@@ -1,7 +1,5 @@
 package prism.rascal;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 import edit.Create;
@@ -34,33 +32,15 @@ public class RascalProducer extends RascalConsumer implements Producer {
 
 	public void publish(IString sourceId, ITuple patch) {
 		
-//		ClassLoader parentCl = this.getClass().getClassLoader().getParent();
-		ClassLoader c =  this.getClass().getClassLoader();
-//		try {
-//			Class activatorCls = parentCl.loadClass("");
-//			Method getWorkspaceListener = activatorCls.getMethod("getWorkspaceListener");
-//			Object bus = getWorkspaceListener.invoke(null, null);
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (NoSuchMethodException e) {
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			e.printStackTrace();
-//		} catch (IllegalArgumentException e) {
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			e.printStackTrace();
-//		}
-		
-//		System.out.println("Foobar!");
-//		System.out.println(patch);
-		
-		Patch res = valueToPatch(sourceId.getValue(), patch);
-		Activator.getWorkspaceListener().getBus().publish(res, "FSM");
-		
-//		System.out.println(res);
+		try {
+			
+			ClassLoader c = this.getClass().getClassLoader();
+			Patch res = valueToPatch(sourceId.getValue(), patch);
+			Activator.getWorkspaceListener().getBus().publish(res, "FSM");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private Patch valueToPatch(String sourceId, ITuple value) {
