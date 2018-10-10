@@ -84,16 +84,18 @@ public class EmfConsumer implements Consumer {
 	}
 
 	private void apply(Insert edit) {
-		EObject obj = model.getEObject(edit.getId());
-		String featureName = edit.getField();
-		int position = edit.getIndex();
-		EObject value = model.getEObject(edit.getValue());
-
-		if (obj != null) {
-			EStructuralFeature feature = obj.eClass().getEStructuralFeature(featureName);
-			EList<EObject> elems = (EList<EObject>) obj.eGet(feature);
-			elems.add(position, value);
-		}
+		//FIXME: Only Rascal side produce Insert after creating Objects, should do the same on other sides 
+		
+//		EObject obj = model.getEObject(edit.getId());
+//		String featureName = edit.getField();
+//		int position = edit.getIndex();
+//		EObject value = model.getEObject(edit.getValue());
+//
+//		if (obj != null) {
+//			EStructuralFeature feature = obj.eClass().getEStructuralFeature(featureName);
+//			EList<EObject> elems = (EList<EObject>) obj.eGet(feature);
+//			elems.add(position, value);
+//		}
 	}
 
 	private void apply(UnSet edit) {
