@@ -2,7 +2,9 @@ package prism.emf;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.ICoreRunnable;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -41,11 +43,15 @@ public class EmfConsumer implements Consumer {
 			@Override
 			protected void doExecute() {
 				apply(p);
-				session.save(new NullProgressMonitor());
 			}
 		};
 		CommandStack commandStack = session.getTransactionalEditingDomain().getCommandStack();
 		commandStack.execute(cmd);
+		
+		Job job = Job.create("Save Sirius", (ICoreRunnable) monitor -> {
+			session.save(new NullProgressMonitor());
+		});
+		job.schedule();
 	}
 
 	private void apply(Patch p) {
